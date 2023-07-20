@@ -1,4 +1,4 @@
-package com.managementSystem.apartmentManagementSystem.dto;
+package com.managementSystem.apartmentManagementSystem.dto.signup;
 
 import java.time.LocalDate;
 

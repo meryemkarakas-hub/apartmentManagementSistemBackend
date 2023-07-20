@@ -1,6 +1,7 @@
-package com.managementSystem.apartmentManagementSystem.entity;
+package com.managementSystem.apartmentManagementSystem.entity.signup;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,7 +24,7 @@ public class SignUp {
     @Column(name = "id", nullable = false)
     private Integer id;
 	
-    @Column(name = "username")
+    @Column(name = "username",unique = true)
     private String username;
     
     @Column(name = "email",unique = true)
@@ -33,9 +34,14 @@ public class SignUp {
     private LocalDate birthdate;
     
     @Column(name = "registration_date")
-    private LocalDate registrationDate;
+    private LocalDateTime registrationDate;
 
     @Column(name = "active")
     private Boolean active;
-       
+
+    @Column(name = "activation_code",unique = true)
+    private String activationCode;
+
+    @Column(name = "password")
+    private String password;
 }

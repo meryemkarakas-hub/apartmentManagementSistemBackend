@@ -1,0 +1,52 @@
+origin:
+  url : http://localhost:3000
+  activation-url : http://localhost:3000/user/activation/
+logging:
+    level:
+        root: INFO
+        org.springframework.security: INFO
+        org.springframework.web: INFO
+        org.springframework: INFO
+        org.hibernate.SQL: INFO
+        org.hibernate.type.descriptor.sql.BasicBinder: INFO
+spring:
+  application:
+    name: ApartmentManagementSystem
+  profiles:
+    active: local
+  datasource:
+    username: postgres
+    url: jdbc:postgresql://localhost:5432/postgres
+    password: postgres
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+      javax:
+        persistence:
+          validation:
+            mode: none
+    hibernate:
+      show-sql: 'true'
+      ddl-auto: update
+  mapstruct:
+    processor-options:
+      suppressGeneratorTimestamp: 'true'
+  mail:
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: 'true'
+          auth: 'true'
+          timeout: 5000
+          connectiontimeout: 5000
+          writetimeout: 5000
+    host: smtp.gmail.com
+    username: meryemkarakas11@gmail.com
+    password: hclsjxljypmeiiym
+    port: 465
+  autoconfigure:
+      exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+
+
