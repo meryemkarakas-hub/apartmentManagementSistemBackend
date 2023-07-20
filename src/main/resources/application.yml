@@ -45,7 +45,7 @@ spring:
     host: smtp.gmail.com
     username: meryemkarakas11@gmail.com
     password: hclsjxljypmeiiym
-    port: 465
+    port: '587'
   autoconfigure:
       exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 
