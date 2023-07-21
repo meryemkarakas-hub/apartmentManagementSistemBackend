@@ -41,9 +41,9 @@ public class SignUpServiceImpl implements SignUpService {
         signUpBusinessRulesService.checkRules(signUpDTO);
 
         String activationCode = ActivationCodeHelper.generateActivationCode();
-        String activationUrlContent = activationUrl + activationCode;
-        mailSenderService.sendMail(signUp.getEmail(), "Aktivasyon", ICERIK + activationUrlContent);
-
+        //String activationUrlContent = activationUrl + activationCode;
+        //mailSenderService.sendMail(signUp.getEmail(), "Aktivasyon", ICERIK + activationUrlContent);
+        signUp.setActive(false);
         signUp.setActivationCode(activationCode);
         signUpRepository.save(signUp);
 
