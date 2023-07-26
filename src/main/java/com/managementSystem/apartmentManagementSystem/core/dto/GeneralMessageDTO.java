@@ -8,7 +8,6 @@ public class GeneralMessageDTO {
     public GeneralMessageDTO(int status, String message){
         this.status = status;
         this.message = message;
-
     }
 
     public int getStatus() {

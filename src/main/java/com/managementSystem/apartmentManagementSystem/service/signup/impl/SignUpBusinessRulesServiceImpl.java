@@ -31,7 +31,7 @@ public class SignUpBusinessRulesServiceImpl implements SignUpBusinessRulesServic
         }
         int age = DateTimeHelper.findAgeFromBirthdate(signUpDTO.getBirthdate());
         if (age < 15) {
-            throw new BusinessRuleException("Sisteme kaydolabilmeniz için yaşınızın 6'dan büyük olması gerekmektedir");
+            throw new BusinessRuleException("Sisteme kaydolabilmeniz için yaşınızın 15'dan büyük olması gerekmektedir");
         }
     }
 }

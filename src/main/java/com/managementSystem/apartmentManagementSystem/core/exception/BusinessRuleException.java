@@ -1,6 +1,7 @@
 package com.managementSystem.apartmentManagementSystem.core.exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 //@ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE, reason = "Invalid business rules")
 public class BusinessRuleException
@@ -15,6 +16,7 @@ public class BusinessRuleException
     public BusinessRuleException(String reason) {
         this.reason = reason;
     }
+
     public String getReason() {
         return reason;
     }

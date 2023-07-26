@@ -13,4 +13,5 @@ public interface SignUpRepository extends JpaRepository<SignUp,Long>{
  Optional<SignUp> findByEmail(String email);
 
  Optional<SignUp> findByActivationCode(String activationCode);
+
 }

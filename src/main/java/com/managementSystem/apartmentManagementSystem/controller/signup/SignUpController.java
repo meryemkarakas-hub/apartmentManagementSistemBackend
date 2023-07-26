@@ -1,6 +1,8 @@
 package com.managementSystem.apartmentManagementSystem.controller.signup;
 
 import com.managementSystem.apartmentManagementSystem.dto.signup.ActivationDTO;
+import com.managementSystem.apartmentManagementSystem.dto.signup.ForgotPasswordActivationDTO;
+import com.managementSystem.apartmentManagementSystem.dto.signup.LoginDTO;
 import com.managementSystem.apartmentManagementSystem.dto.signup.SignUpDTO;
 import com.managementSystem.apartmentManagementSystem.service.signup.SignUpService;
 import jakarta.validation.Valid;
@@ -28,5 +30,15 @@ public class SignUpController {
     @RequestMapping(value = "/activation", method = RequestMethod.POST)
     ResponseEntity<?> activation(@Valid @RequestBody ActivationDTO activationDTO){
         return new ResponseEntity<>(signUpService.activation(activationDTO), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    ResponseEntity<?> login(@Valid @RequestBody LoginDTO loginDTO){
+        return new ResponseEntity<>(signUpService.login(loginDTO), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/forgot-password-activation", method = RequestMethod.POST)
+    ResponseEntity<?> forgotPasswordActivation(@Valid @RequestBody ForgotPasswordActivationDTO forgotPasswordActivationDTO){
+        return new ResponseEntity<>(signUpService.forgotPasswordActivation(forgotPasswordActivationDTO), HttpStatus.OK);
     }
 }
