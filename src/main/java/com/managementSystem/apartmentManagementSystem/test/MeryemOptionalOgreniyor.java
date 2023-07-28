@@ -1,22 +1,22 @@
 package com.managementSystem.apartmentManagementSystem.test;
 
 import com.managementSystem.apartmentManagementSystem.core.exception.BusinessRuleException;
-import com.managementSystem.apartmentManagementSystem.entity.signup.SignUp;
-import com.managementSystem.apartmentManagementSystem.repository.signup.SignUpRepository;
+import com.managementSystem.apartmentManagementSystem.entity.user.User;
+import com.managementSystem.apartmentManagementSystem.repository.user.UserRepository;
 
 import java.util.Optional;
 
 
 public class MeryemOptionalOgreniyor {
 
-    private static SignUpRepository signUpRepository = null;
+    private static UserRepository userRepository = null;
 
-    public MeryemOptionalOgreniyor(SignUpRepository signUpRepository) {
-        this.signUpRepository = signUpRepository;
+    public MeryemOptionalOgreniyor(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     public static void main(String[] args) {
-        Optional<SignUp> signUpOptional =  signUpRepository.findByUsername("Meryem");
+        Optional<User> signUpOptional =  userRepository.findByUsername("Meryem");
 
         //1. seçenek
         if(signUpOptional.isPresent()) {
@@ -24,27 +24,27 @@ public class MeryemOptionalOgreniyor {
         }
         //2. seçenek
         if(signUpOptional.isPresent()) {
-            SignUp signUp = signUpOptional.get();
-            signUp.setActive(true);
+            User user = signUpOptional.get();
+            user.setActive(true);
         }
 
         //3.seçenek
         if(signUpOptional.isPresent()){
-            SignUp signUp = signUpOptional.get();
+            User user = signUpOptional.get();
         }else{
             throw new BusinessRuleException("Kullanıcı bulunamadı!");
         }
 
         //4.Seçenek
-        SignUp signUp2 = signUpOptional.orElse(null);
+        User user2 = signUpOptional.orElse(null);
 
         //5.seçenek 4. seçeneğin diğer hali
-        SignUp signUp3 = signUpOptional.orElseGet(()-> null);
+        User user3 = signUpOptional.orElseGet(()-> null);
 
         //6.Seçenek
         signUpOptional.ifPresent(signUp -> signUp.setActive(true));
 
         //7.Seçenek 3. seçeneğin diğer hali
-        SignUp signUp4  = signUpOptional.orElseThrow(()-> new BusinessRuleException("Kullanıcı bulunamadı!"));
+        User user4 = signUpOptional.orElseThrow(()-> new BusinessRuleException("Kullanıcı bulunamadı!"));
     }
 }

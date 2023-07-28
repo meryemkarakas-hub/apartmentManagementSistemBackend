@@ -1,24 +1,20 @@
-package com.managementSystem.apartmentManagementSystem.entity.signup;
+package com.managementSystem.apartmentManagementSystem.entity.user;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "sign_up")
+@Table(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor
-public class SignUp {
+public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id", nullable = false)
@@ -32,9 +28,6 @@ public class SignUp {
     
     @Column(name = "birthday")
     private LocalDate birthdate;
-    
-    @Column(name = "registration_date")
-    private LocalDateTime registrationDate;
 
     @Column(name = "active")
     private Boolean active;
@@ -44,4 +37,7 @@ public class SignUp {
 
     @Column(name = "password")
     private String password;
+
+    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
+    private UserStatistics userStatistics;
 }

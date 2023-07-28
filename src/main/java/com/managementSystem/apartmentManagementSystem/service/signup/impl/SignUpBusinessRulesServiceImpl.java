@@ -3,8 +3,8 @@ package com.managementSystem.apartmentManagementSystem.service.signup.impl;
 import com.managementSystem.apartmentManagementSystem.core.exception.BusinessRuleException;
 import com.managementSystem.apartmentManagementSystem.core.helper.DateTimeHelper;
 import com.managementSystem.apartmentManagementSystem.dto.signup.SignUpDTO;
-import com.managementSystem.apartmentManagementSystem.entity.signup.SignUp;
-import com.managementSystem.apartmentManagementSystem.repository.signup.SignUpRepository;
+import com.managementSystem.apartmentManagementSystem.entity.user.User;
+import com.managementSystem.apartmentManagementSystem.repository.user.UserRepository;
 import com.managementSystem.apartmentManagementSystem.service.signup.SignUpBusinessRulesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,15 +14,15 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class SignUpBusinessRulesServiceImpl implements SignUpBusinessRulesService {
-    private final SignUpRepository signUpRepository;
+    private final UserRepository userRepository;
 
     @Override
     public void checkRules(SignUpDTO signUpDTO) {
-        Optional<SignUp> userFindByUsername = signUpRepository.findByUsername(signUpDTO.getUsername());
+        Optional<User> userFindByUsername = userRepository.findByUsername(signUpDTO.getUsername());
         if (userFindByUsername.isPresent()) {
             throw new BusinessRuleException("Lütfen farklı bir kullanıcı adı oluşturunuz.");
         }
-        Optional<SignUp> userFindByEmail = signUpRepository.findByEmail(signUpDTO.getEmail());
+        Optional<User> userFindByEmail = userRepository.findByEmail(signUpDTO.getEmail());
         if (userFindByEmail.isPresent()) {
             throw new BusinessRuleException("Lütfen farklı bir mail adresi ile kayıt olunuz.");
         }
