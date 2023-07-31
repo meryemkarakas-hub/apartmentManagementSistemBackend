@@ -16,4 +16,6 @@ public interface UserRepository extends JpaRepository<User,Long>{
  Optional<User> findByEmail(String email);
  Optional<User> findByActivationCode(String activationCode);
 
+ @Query("select distinct u.username,u.email,u.userStatistics.registrationTime,u.userStatistics.activationTime,u.userStatistics.lastLoginTime from User u ,UserStatistics y where u.id=y.user.id")
+ List<User> getStatistics();
 }

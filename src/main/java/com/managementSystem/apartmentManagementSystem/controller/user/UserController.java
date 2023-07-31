@@ -1,10 +1,8 @@
-package com.managementSystem.apartmentManagementSystem.controller.signup;
+package com.managementSystem.apartmentManagementSystem.controller.user;
 
-import com.managementSystem.apartmentManagementSystem.dto.signup.ActivationDTO;
-import com.managementSystem.apartmentManagementSystem.dto.signup.ForgotPasswordActivationDTO;
-import com.managementSystem.apartmentManagementSystem.dto.signup.LoginDTO;
-import com.managementSystem.apartmentManagementSystem.dto.signup.SignUpDTO;
-import com.managementSystem.apartmentManagementSystem.service.signup.SignUpService;
+import com.managementSystem.apartmentManagementSystem.dto.user.*;
+import com.managementSystem.apartmentManagementSystem.entity.user.User;
+import com.managementSystem.apartmentManagementSystem.service.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,30 +13,38 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/api/user",produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
-public class SignUpController {
+public class UserController {
 
-    private final SignUpService signUpService;
+    private final UserService userService;
 
 	@RequestMapping(value = "/sign-up", method = RequestMethod.POST)
     ResponseEntity<?> register(@Valid @RequestBody SignUpDTO registerDTO){
-        return new ResponseEntity<>(signUpService.signUp(registerDTO), HttpStatus.OK);
+        return new ResponseEntity<>(userService.signUp(registerDTO), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/activation", method = RequestMethod.POST)
     ResponseEntity<?> activation(@Valid @RequestBody ActivationDTO activationDTO){
-        return new ResponseEntity<>(signUpService.activation(activationDTO), HttpStatus.OK);
+        return new ResponseEntity<>(userService.activation(activationDTO), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     ResponseEntity<?> login(@Valid @RequestBody LoginDTO loginDTO){
-        return new ResponseEntity<>(signUpService.login(loginDTO), HttpStatus.OK);
+        return new ResponseEntity<>(userService.login(loginDTO), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/forgot-password-activation", method = RequestMethod.POST)
     ResponseEntity<?> forgotPasswordActivation(@Valid @RequestBody ForgotPasswordActivationDTO forgotPasswordActivationDTO){
-        return new ResponseEntity<>(signUpService.forgotPasswordActivation(forgotPasswordActivationDTO), HttpStatus.OK);
+        return new ResponseEntity<>(userService.forgotPasswordActivation(forgotPasswordActivationDTO), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/statistics", method = RequestMethod.GET)
+    public ResponseEntity<List<StatisticsDTO>> getStatistics() {
+        List<StatisticsDTO> statisticsDtoList = userService.getStatistics();
+        return new ResponseEntity<>(statisticsDtoList, HttpStatus.OK);
     }
 }

@@ -1,10 +1,7 @@
-package com.managementSystem.apartmentManagementSystem.dto.signup;
+package com.managementSystem.apartmentManagementSystem.dto.user;
 
 import java.time.LocalDate;
 
-
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

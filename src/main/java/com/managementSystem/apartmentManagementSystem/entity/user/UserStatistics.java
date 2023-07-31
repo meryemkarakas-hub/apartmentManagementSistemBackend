@@ -19,6 +19,7 @@ public class UserStatistics {
     @Column(name = "id", nullable = false)
     private Integer id;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;

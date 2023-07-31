@@ -1,4 +1,4 @@
-package com.managementSystem.apartmentManagementSystem.dto.signup;
+package com.managementSystem.apartmentManagementSystem.dto.user;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
