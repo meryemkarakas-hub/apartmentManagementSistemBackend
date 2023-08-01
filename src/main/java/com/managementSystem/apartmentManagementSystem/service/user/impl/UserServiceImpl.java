@@ -1,28 +1,28 @@
 package com.managementSystem.apartmentManagementSystem.service.user.impl;
 
+import com.managementSystem.apartmentManagementSystem.core.dto.GeneralMessageDTO;
 import com.managementSystem.apartmentManagementSystem.core.helper.ActivationCodeHelper;
 import com.managementSystem.apartmentManagementSystem.core.helper.DateTimeHelper;
 import com.managementSystem.apartmentManagementSystem.core.service.MailSenderService;
 import com.managementSystem.apartmentManagementSystem.dto.reference.CitiesDTO;
 import com.managementSystem.apartmentManagementSystem.dto.user.*;
-import com.managementSystem.apartmentManagementSystem.entity.user.Cities;
+import com.managementSystem.apartmentManagementSystem.entity.user.Profile;
 import com.managementSystem.apartmentManagementSystem.entity.user.User;
 import com.managementSystem.apartmentManagementSystem.entity.user.UserStatistics;
 import com.managementSystem.apartmentManagementSystem.mapper.reference.CitiesMapper;
+import com.managementSystem.apartmentManagementSystem.mapper.user.ProfileMapper;
+import com.managementSystem.apartmentManagementSystem.mapper.user.UserMapper;
 import com.managementSystem.apartmentManagementSystem.mapper.user.UserStatisticsMapper;
 import com.managementSystem.apartmentManagementSystem.repository.reference.CitiesRepository;
+import com.managementSystem.apartmentManagementSystem.repository.user.ProfileRepository;
+import com.managementSystem.apartmentManagementSystem.repository.user.UserRepository;
 import com.managementSystem.apartmentManagementSystem.repository.user.UserStatisticsRepository;
 import com.managementSystem.apartmentManagementSystem.service.user.UserBusinessRulesService;
+import com.managementSystem.apartmentManagementSystem.service.user.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.managementSystem.apartmentManagementSystem.core.dto.GeneralMessageDTO;
-
-import com.managementSystem.apartmentManagementSystem.mapper.user.UserMapper;
-import com.managementSystem.apartmentManagementSystem.repository.user.UserRepository;
-import com.managementSystem.apartmentManagementSystem.service.user.UserService;
-
-import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -53,6 +53,10 @@ public class UserServiceImpl implements UserService {
 
     private final CitiesRepository citiesRepository;
 
+    private final ProfileMapper profileMapper;
+
+    private final ProfileRepository profileRepository;
+
     @Override
     public GeneralMessageDTO signUp(SignUpDTO signUpDTO) {
         User user = userMapper.toEntity(signUpDTO);
@@ -62,18 +66,18 @@ public class UserServiceImpl implements UserService {
             return new GeneralMessageDTO(0, "Lütfen farklı bir kullanıcı adı oluşturunuz.");
         }
 
+        if (!signUpDTO.getEmail().equals(signUpDTO.getReEmail())) {
+            return new GeneralMessageDTO(0, "Lütfen e-posta adresi ile e-posta adresi tekrar alanlarını aynı giriniz.");
+        }
+
         Optional<User> userFindByEmail = userRepository.findByEmail(signUpDTO.getEmail());
         if (userFindByEmail.isPresent()) {
             return new GeneralMessageDTO(0, "Lütfen farklı bir mail adresi ile kayıt olunuz.");
         }
 
-        if (!signUpDTO.getEmail().equals(signUpDTO.getReEmail())) {
-            return new GeneralMessageDTO(0, "Lütfen email adresi ile reEmail adresini doğru giriniz");
-        }
-
         int age = DateTimeHelper.findAgeFromBirthdate(signUpDTO.getBirthdate());
         if (age < 15) {
-            return new GeneralMessageDTO(0, "Sisteme kaydolabilmeniz için yaşınızın 15'dan büyük olması gerekmektedir");
+            return new GeneralMessageDTO(0, "Sisteme kaydolabilmeniz için 15 yaşından büyük olmanız gerekmektedir.");
         }
         String activationCode = ActivationCodeHelper.generateActivationCode();
         user.setActive(false);
@@ -85,7 +89,7 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
 
-        return new GeneralMessageDTO(1, "İşleminiz başarıyla gerçekleştirildi. Lütfen aktivasyon için mail adresinizi kontrol ediniz.");
+        return new GeneralMessageDTO(1, "İşleminiz başarıyla gerçekleştirildi. Lütfen aktivasyon işlemi için e-postanızı kontrol ediniz.");
     }
 
 
@@ -109,13 +113,13 @@ public class UserServiceImpl implements UserService {
 
                 userRepository.save(userFindByActivationCode.get());
 
-                return new GeneralMessageDTO(1, "Aktivasyon İşleminiz başarıyla gerçekleşmiştir.");
+                return new GeneralMessageDTO(1, "Aktivasyon işleminiz başarıyla gerçekleştirilmiştir.");
             }
 
-            return new GeneralMessageDTO(0, "Geçersiz aktivasyon kodu");
+            return new GeneralMessageDTO(0, "Geçersiz aktivasyon kodu.");
 
         }
-        return new GeneralMessageDTO(0, "Lütfen password ve repassword alanlarını aynı giriniz.");
+        return new GeneralMessageDTO(0, "Lütfen şifre ve şifre tekrar alanlarını aynı giriniz.");
     }
 
 
@@ -142,7 +146,7 @@ public class UserServiceImpl implements UserService {
                         userStatistics.setLastLoginTime(LocalDateTime.now());
                         userStatisticsRepository.save(userStatistics);
                     }
-                    return new GeneralMessageDTO(1, "Giriş işleminiz başarıyla gerçekleşmiştir.");
+                    return new GeneralMessageDTO(1, "İşleminiz başarıyla gerçekleştirilmiştir.Uygulamaya yönlendiriliyorsunuz.");
                 } else {
                     return new GeneralMessageDTO(0, "İşleminiz başarısız lütfen tekrar deneyiniz.");
                 }
@@ -154,13 +158,13 @@ public class UserServiceImpl implements UserService {
                         userStatistics.setLastLoginTime(LocalDateTime.now());
                         userStatisticsRepository.save(userStatistics);
                     }
-                    return new GeneralMessageDTO(1, "Giriş işleminiz başarıyla gerçekleşmiştir.");
+                    return new GeneralMessageDTO(1, "İşleminiz başarıyla gerçekleştirilmiştir.Uygulamaya yönlendiriliyorsunuz.");
                 } else {
                     return new GeneralMessageDTO(0, "İşleminiz başarısız lütfen tekrar deneyiniz.");
                 }
             }
         }
-        return new GeneralMessageDTO(0, "Kullanıcı bulunamadı");
+        return new GeneralMessageDTO(0, "Kullanıcı bulunamadı.");
     }
 
 
@@ -183,9 +187,9 @@ public class UserServiceImpl implements UserService {
             existingUser.setActive(false);
             userRepository.save(existingUser);
 
-            return new GeneralMessageDTO(1, "İşleminiz başarıyla gerçekleştirildi. Lütfen aktivasyon için mail adresinizi kontrol ediniz.");
+            return new GeneralMessageDTO(1, "İşleminiz başarıyla gerçekleştirildi. Lütfen aktivasyon işlemi için e-postanızı kontrol ediniz.");
         } else {
-            return new GeneralMessageDTO(0, "Girilen mail adresi ile daha önce kayıt oluşturulmamıştır.");
+            return new GeneralMessageDTO(0, "Girdiğiniz e-posta adresi ile daha önce kayıt oluşturulmamıştır.");
         }
     }
 
@@ -197,6 +201,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<CitiesDTO> getAllCitiesList() {
         return citiesRepository.getAllCitiesList().stream().map(citiesMapper::toDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public GeneralMessageDTO saveOrUpdateProfile(ProfileDTO profileDTO) {
+        try {
+            Profile profile = profileMapper.toEntity(profileDTO);
+            profileRepository.save(profile);
+            return new GeneralMessageDTO(1, "İşleminiz başarıyla gerçekleştirildi.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new GeneralMessageDTO(0, "İşleminiz gerçekleştirilemedi.");
+        }
     }
 }
 

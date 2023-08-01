@@ -20,4 +20,6 @@ public interface UserService {
 	List<StatisticsDTO> getStatistics();
 
     List<CitiesDTO> getAllCitiesList();
+
+	GeneralMessageDTO saveOrUpdateProfile(ProfileDTO profileDTO);
 }

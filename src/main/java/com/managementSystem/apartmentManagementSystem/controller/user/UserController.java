@@ -47,4 +47,9 @@ public class UserController {
         List<StatisticsDTO> statisticsDtoList = userService.getStatistics();
         return new ResponseEntity<>(statisticsDtoList, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/profile", method = RequestMethod.POST)
+    ResponseEntity<?> register(@Valid @RequestBody ProfileDTO profileDTO){
+        return new ResponseEntity<>(userService.saveOrUpdateProfile(profileDTO), HttpStatus.OK);
+    }
 }

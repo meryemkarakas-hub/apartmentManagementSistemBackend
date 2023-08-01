@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface CitiesRepository extends JpaRepository<Cities,Long> {
-    @Query("select u from Cities u order by sira asc")
+    @Query("select u from Cities u order by u.ad asc")
     List<Cities> getAllCitiesList();
 }
