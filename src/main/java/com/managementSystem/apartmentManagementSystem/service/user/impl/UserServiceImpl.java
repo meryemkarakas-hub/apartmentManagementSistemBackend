@@ -3,13 +3,16 @@ package com.managementSystem.apartmentManagementSystem.service.user.impl;
 import com.managementSystem.apartmentManagementSystem.core.helper.ActivationCodeHelper;
 import com.managementSystem.apartmentManagementSystem.core.helper.DateTimeHelper;
 import com.managementSystem.apartmentManagementSystem.core.service.MailSenderService;
+import com.managementSystem.apartmentManagementSystem.dto.reference.CitiesDTO;
 import com.managementSystem.apartmentManagementSystem.dto.user.*;
+import com.managementSystem.apartmentManagementSystem.entity.user.Cities;
 import com.managementSystem.apartmentManagementSystem.entity.user.User;
 import com.managementSystem.apartmentManagementSystem.entity.user.UserStatistics;
+import com.managementSystem.apartmentManagementSystem.mapper.reference.CitiesMapper;
 import com.managementSystem.apartmentManagementSystem.mapper.user.UserStatisticsMapper;
+import com.managementSystem.apartmentManagementSystem.repository.reference.CitiesRepository;
 import com.managementSystem.apartmentManagementSystem.repository.user.UserStatisticsRepository;
 import com.managementSystem.apartmentManagementSystem.service.user.UserBusinessRulesService;
-import org.hibernate.stat.Statistics;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -39,12 +42,16 @@ public class UserServiceImpl implements UserService {
 
     private final UserStatisticsMapper userStatisticsMapper;
 
+    private final CitiesMapper citiesMapper;
+
     private final UserRepository userRepository;
     private final MailSenderService mailSenderService;
 
     private final UserBusinessRulesService userBusinessRulesService;
 
     private final UserStatisticsRepository userStatisticsRepository;
+
+    private final CitiesRepository citiesRepository;
 
     @Override
     public GeneralMessageDTO signUp(SignUpDTO signUpDTO) {
@@ -184,13 +191,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<StatisticsDTO> getStatistics() {
-      //  List <User> bb= userRepository.getStatistics();
-            List <UserStatistics> a= userStatisticsRepository.getStatistics();
-                     //.stream().map(userStatisticsMapper::toDto).collect(Collectors.toList());
-         return userStatisticsRepository.getStatistics().stream().map(userStatisticsMapper::toDto).collect(Collectors.toList());
-      //  return null;
+         return userStatisticsRepository.getStatistics(true).stream().map(userStatisticsMapper::toDto).collect(Collectors.toList());
     }
 
+    @Override
+    public List<CitiesDTO> getAllCitiesList() {
+        return citiesRepository.getAllCitiesList().stream().map(citiesMapper::toDto).collect(Collectors.toList());
+    }
 }
 
 
