@@ -9,6 +9,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CitiesDTO {
     private Integer id;
-    private Integer ilKodu;
-    private String ad;
+    private Integer cityCode;
+    private String cityName;
 }

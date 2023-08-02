@@ -39,22 +39,16 @@ public class UserServiceImpl implements UserService {
 
     private static final String ICERIK = "Aktivasyon işleminizi gerçekleştirmek için lütfen linke tıklanıyız. ";
     private final UserMapper userMapper;
-
     private final UserStatisticsMapper userStatisticsMapper;
-
     private final CitiesMapper citiesMapper;
-
     private final UserRepository userRepository;
+
     private final MailSenderService mailSenderService;
 
     private final UserBusinessRulesService userBusinessRulesService;
-
     private final UserStatisticsRepository userStatisticsRepository;
-
     private final CitiesRepository citiesRepository;
-
     private final ProfileMapper profileMapper;
-
     private final ProfileRepository profileRepository;
 
     @Override

@@ -17,12 +17,12 @@ public class Cities implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name="il_kodu", nullable=false)
-    private Integer ilKodu;
+    @Column(name="city_code", nullable=false)
+    private Integer cityCode;
 
-    @Column(name="ad")
-    private String ad;
+    @Column(name="city_name")
+    private String cityName;
 
-    @Column(name="sira")
-    private Integer sira;
+    @Column(name="sequence")
+    private Integer sequence;
 }
