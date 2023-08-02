@@ -21,4 +21,9 @@ public class Profile {
 
     @Column(name = "phone_number")
     private String phoneNumber;
+
+    @ManyToOne
+    @JoinColumn(name="cities_id", referencedColumnName = "id",nullable=false)
+    private Cities cities;
+
 }

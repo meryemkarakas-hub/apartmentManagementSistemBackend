@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @Entity
@@ -25,4 +26,5 @@ public class Cities implements Serializable {
 
     @Column(name="sequence")
     private Integer sequence;
+
 }

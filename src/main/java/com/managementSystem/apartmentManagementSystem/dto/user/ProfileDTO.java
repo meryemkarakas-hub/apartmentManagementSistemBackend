@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class ProfileDTO {
-    private String profileImage;
+    private int cityId;
     private String city;
-    private String phoneNumber;
+
 }

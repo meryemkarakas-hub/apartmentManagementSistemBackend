@@ -6,6 +6,7 @@ import com.managementSystem.apartmentManagementSystem.core.helper.DateTimeHelper
 import com.managementSystem.apartmentManagementSystem.core.service.MailSenderService;
 import com.managementSystem.apartmentManagementSystem.dto.reference.CitiesDTO;
 import com.managementSystem.apartmentManagementSystem.dto.user.*;
+import com.managementSystem.apartmentManagementSystem.entity.user.Cities;
 import com.managementSystem.apartmentManagementSystem.entity.user.Profile;
 import com.managementSystem.apartmentManagementSystem.entity.user.User;
 import com.managementSystem.apartmentManagementSystem.entity.user.UserStatistics;
@@ -201,6 +202,18 @@ public class UserServiceImpl implements UserService {
     public GeneralMessageDTO saveOrUpdateProfile(ProfileDTO profileDTO) {
         try {
             Profile profile = profileMapper.toEntity(profileDTO);
+
+            // İlgili Cities verisini id kullanarak alın
+            Long citiesId = Long.valueOf(profileDTO.getCityId());
+            Cities cities = citiesRepository.findById(citiesId).orElse(null);
+
+            if (cities == null) {
+                return new GeneralMessageDTO(0, "Geçersiz Cities ID sağlandı.");
+            }
+
+            // Alınan Cities verisini Profile verisine setleyin
+            profile.setCities(cities);
+
             profileRepository.save(profile);
             return new GeneralMessageDTO(1, "İşleminiz başarıyla gerçekleştirildi.");
         } catch (Exception e) {
@@ -208,6 +221,7 @@ public class UserServiceImpl implements UserService {
             return new GeneralMessageDTO(0, "İşleminiz gerçekleştirilemedi.");
         }
     }
+
 }
 
 
