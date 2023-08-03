@@ -10,5 +10,6 @@ import lombok.Setter;
 public class ProfileDTO {
     private int cityId;
     private String city;
+    private String phoneNumber;
 
 }
